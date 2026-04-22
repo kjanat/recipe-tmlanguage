@@ -13,7 +13,13 @@
 		"url": "https://github.com/kjanat"
 	},
 	"type": "module",
-	"module": "dist/recipe.tmLanguage.json",
+	"exports": {
+		".": "./dist/recipe.tmLanguage.json",
+		"./dist/*": "./dist/*",
+		"./package.json": "./package.json"
+	},
+	"main": "./dist/recipe.tmLanguage.json",
+	"module": "./dist/recipe.tmLanguage.json",
 	"bin": {
 		"recipe-tmlang": "./cli.ts"
 	},
