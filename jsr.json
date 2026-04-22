@@ -1,0 +1,10 @@
+{
+	"$schema": "https://jsr.io/schema/config-file.v1.json",
+	"name": "@kjanat/recipe-tmlanguage",
+	"version": "0.1.0",
+	"license": "MIT",
+	"exports": "./dist/recipe.tmLanguage.json",
+	"publish": {
+		"include": ["dist/recipe.tmLanguage.json", "LICENSE", "README.md", "jsr.json"]
+	}
+}

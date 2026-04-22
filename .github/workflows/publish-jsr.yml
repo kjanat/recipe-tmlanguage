@@ -1,0 +1,23 @@
+name: Publish to JSR
+
+on:
+  push: { tags: ["v*"] }
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write # JSR OIDC auth
+
+jobs:
+  publish:
+    name: Publish @kjanat/recipe-tmlanguage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Publish to JSR
+        run: bunx jsr publish
