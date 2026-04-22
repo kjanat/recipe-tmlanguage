@@ -31,9 +31,11 @@
 		"LICENSE"
 	],
 	"scripts": {
+		"check": "biome check",
 		"cli": "bun cli.ts",
 		"fmt": "dprint fmt",
 		"generate": "bun cli.ts generate",
+		"lint": "biome lint",
 		"prepack": "bun generate",
 		"typecheck": "tsc --noEmit",
 		"verify": "bun cli.ts verify"
@@ -45,6 +47,7 @@
 		"vscode-textmate": "^9.2.0"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "^2.4.12",
 		"@types/bun": "^1.3.12",
 		"dprint": "^0.54.0",
 		"typescript": "^6.0.3"
