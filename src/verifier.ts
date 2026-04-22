@@ -6,33 +6,33 @@
  * No CLI concerns here; the caller supplies paths and decides how to present
  * the result (text table / JSON / exit code).
  */
-import { readdirSync, readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { readdirSync, readFileSync } from "node:fs";
+import { resolve } from "node:path";
 
-import * as oniguruma from 'vscode-oniguruma';
-import { INITIAL, parseRawGrammar, Registry } from 'vscode-textmate';
+import * as oniguruma from "vscode-oniguruma";
+import { INITIAL, parseRawGrammar, Registry } from "vscode-textmate";
 
 // ── capture → scope mapping (inverse of grammar.ts SCOPE) ───────────────────
 // Fixtures speak tree-sitter capture names; the tokenizer speaks TextMate
 // scopes. A token passes when one of its scopes starts with the expected
 // prefix below — the scope tree is hierarchical, so prefix-match is correct.
 const CAPTURE_EXPECTS: Record<string, string> = {
-	'keyword.directive': 'keyword.control.directive',
-	'keyword.repeat': 'keyword.other.frequency',
-	'keyword.error': 'invalid.illegal.warning',
-	'keyword.operator': 'keyword.operator',
-	'keyword.conditional': 'keyword.control.conditional',
-	'keyword': 'keyword.other.timing',
-	'function.macro': 'support.function.route',
-	'attribute': 'entity.other.attribute-name',
-	'type': 'storage.type.form',
-	'type.builtin': 'support.type.unit',
-	'number': 'constant.numeric',
-	'variable': 'variable.other.ingredient',
-	'string': 'string.unquoted.signa',
-	'comment': 'comment',
-	'comment.documentation': 'comment',
-	'punctuation.delimiter': 'punctuation.separator',
+	"keyword.directive": "keyword.control.directive",
+	"keyword.repeat": "keyword.other.frequency",
+	"keyword.error": "invalid.illegal.warning",
+	"keyword.operator": "keyword.operator",
+	"keyword.conditional": "keyword.control.conditional",
+	"keyword": "keyword.other.timing",
+	"function.macro": "support.function.route",
+	"attribute": "entity.other.attribute-name",
+	"type": "storage.type.form",
+	"type.builtin": "support.type.unit",
+	"number": "constant.numeric",
+	"variable": "variable.other.ingredient",
+	"string": "string.unquoted.signa",
+	"comment": "comment",
+	"comment.documentation": "comment",
+	"punctuation.delimiter": "punctuation.separator",
 };
 
 export type Failure = {
@@ -82,7 +82,7 @@ function parseFixture(content: string, name: string): { source: string; asserts:
 	}
 
 	for (let i = 0; i < rawLines.length; i++) {
-		const raw = rawLines[i] ?? '';
+		const raw = rawLines[i] ?? "";
 		if (!COMMENT_ONLY_RE.test(raw)) continue;
 		const match = raw.match(ASSERT_RE);
 		if (!match) continue;
@@ -91,11 +91,11 @@ function parseFixture(content: string, name: string): { source: string; asserts:
 		const targetLine = sourceLineIndexForRawLine[i] ?? 0;
 		if (targetLine === 0) continue;
 
-		const col = kind === '<-' ? 0 : raw.indexOf('^');
+		const col = kind === "<-" ? 0 : raw.indexOf("^");
 		asserts.push({ fixture: name, targetLine, col, capture });
 	}
 
-	return { source: sourceLines.join('\n'), asserts };
+	return { source: sourceLines.join("\n"), asserts };
 }
 
 // ── main ────────────────────────────────────────────────────────────────────
@@ -109,7 +109,7 @@ export async function verify(opts: VerifyOptions): Promise<VerifyResult> {
 	});
 
 	const rawGrammar = parseRawGrammar(
-		readFileSync(opts.grammarPath, 'utf-8'),
+		readFileSync(opts.grammarPath, "utf-8"),
 		opts.grammarPath,
 	);
 	const registry = new Registry({ onigLib, loadGrammar: async () => null });
@@ -118,11 +118,11 @@ export async function verify(opts: VerifyOptions): Promise<VerifyResult> {
 	const result: VerifyResult = { pass: 0, total: 0, failures: [] };
 
 	for (const name of readdirSync(opts.fixturesDir).sort()) {
-		if (!name.endsWith('.recipe')) continue;
-		const content = readFileSync(resolve(opts.fixturesDir, name), 'utf-8');
+		if (!name.endsWith(".recipe")) continue;
+		const content = readFileSync(resolve(opts.fixturesDir, name), "utf-8");
 		const { source, asserts } = parseFixture(content, name);
 
-		const sourceLines = source.split('\n');
+		const sourceLines = source.split("\n");
 		let ruleStack = INITIAL;
 		const perLine: { start: number; end: number; scopes: string[] }[][] = [];
 		for (const line of sourceLines) {

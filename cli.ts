@@ -9,44 +9,44 @@
  * Zero manual argparse — argument parsing, help, and completions all come
  * from DreamCLI. `--json` is a DreamCLI built-in; we branch on `out.jsonMode`.
  */
-import { mkdirSync, writeFileSync } from 'node:fs';
-import { dirname, resolve as pathResolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { mkdirSync, writeFileSync } from "node:fs";
+import { dirname, resolve as pathResolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
-import { cli, command, flag } from '@kjanat/dreamcli';
+import { cli, command, flag } from "@kjanat/dreamcli";
 
-import { buildGrammar, serializeGrammar } from './src/grammar';
-import { verify } from './src/verifier';
+import { buildGrammar, serializeGrammar } from "./src/grammar";
+import { verify } from "./src/verifier";
 
-const DEFAULT_OUT = './dist/recipe.tmLanguage.json';
+const DEFAULT_OUT = "./dist/recipe.tmLanguage.json";
 
 // Resolve the fixtures directory via the package's exports map. Anchoring on
 // package.json (which every published package exposes) avoids depending on
 // a specific fixture filename that could be renamed.
 const DEFAULT_FIXTURES_DIR = pathResolve(
-	dirname(fileURLToPath(import.meta.resolve('tree-sitter-recipe/package.json'))),
-	'test/highlight',
+	dirname(fileURLToPath(import.meta.resolve("tree-sitter-recipe/package.json"))),
+	"test/highlight",
 );
 const DEFAULT_ONIG_WASM = fileURLToPath(
-	import.meta.resolve('vscode-oniguruma/release/onig.wasm'),
+	import.meta.resolve("vscode-oniguruma/release/onig.wasm"),
 );
 
-const indentOf = (raw: string): 'tab' | number => (raw === 'tab' ? 'tab' : Number(raw));
+const indentOf = (raw: string): "tab" | number => (raw === "tab" ? "tab" : Number(raw));
 
 // ── generate ────────────────────────────────────────────────────────────────
-const generate = command('generate')
-	.description('Build the TextMate grammar from the tree-sitter-recipe vocabulary')
+const generate = command("generate")
+	.description("Build the TextMate grammar from the tree-sitter-recipe vocabulary")
 	.flag(
-		'out',
-		flag.string().alias('o').default(DEFAULT_OUT).describe('Output JSON path'),
+		"out",
+		flag.string().alias("o").default(DEFAULT_OUT).describe("Output JSON path"),
 	)
 	.flag(
-		'indent',
-		flag.enum(['tab', '2', '4']).default('tab').describe('JSON indent (tab | 2 | 4)'),
+		"indent",
+		flag.enum(["tab", "2", "4"]).default("tab").describe("JSON indent (tab | 2 | 4)"),
 	)
 	.flag(
-		'quiet',
-		flag.boolean().alias('q').default(false).describe('Suppress stats on success'),
+		"quiet",
+		flag.boolean().alias("q").default(false).describe("Suppress stats on success"),
 	)
 	.action(({ flags, out }) => {
 		const { grammar, stats } = buildGrammar();
@@ -70,31 +70,31 @@ const generate = command('generate')
 	});
 
 // ── verify ──────────────────────────────────────────────────────────────────
-const verifyCmd = command('verify')
-	.description('Tokenize tree-sitter-recipe highlight fixtures and assert scope matches')
+const verifyCmd = command("verify")
+	.description("Tokenize tree-sitter-recipe highlight fixtures and assert scope matches")
 	.flag(
-		'grammar',
-		flag.string().alias('g').default(DEFAULT_OUT).describe('Path to .tmLanguage.json'),
+		"grammar",
+		flag.string().alias("g").default(DEFAULT_OUT).describe("Path to .tmLanguage.json"),
 	)
 	.flag(
-		'fixtures',
-		flag.string().alias('f').default(DEFAULT_FIXTURES_DIR).describe(
-			'Directory of .recipe fixtures (defaults to tree-sitter-recipe/test/highlight)',
+		"fixtures",
+		flag.string().alias("f").default(DEFAULT_FIXTURES_DIR).describe(
+			"Directory of .recipe fixtures (defaults to tree-sitter-recipe/test/highlight)",
 		),
 	)
 	.flag(
-		'onig-wasm',
-		flag.string().default(DEFAULT_ONIG_WASM).describe('Path to oniguruma WASM'),
+		"onig-wasm",
+		flag.string().default(DEFAULT_ONIG_WASM).describe("Path to oniguruma WASM"),
 	)
 	.flag(
-		'max-failures',
-		flag.number().default(40).describe('Max failures to print (0 = all)'),
+		"max-failures",
+		flag.number().default(40).describe("Max failures to print (0 = all)"),
 	)
 	.action(async ({ flags, out }) => {
 		const result = await verify({
 			grammarPath: pathResolve(process.cwd(), flags.grammar),
 			fixturesDir: pathResolve(process.cwd(), flags.fixtures),
-			onigWasmPath: pathResolve(process.cwd(), flags['onig-wasm']),
+			onigWasmPath: pathResolve(process.cwd(), flags["onig-wasm"]),
 		});
 
 		if (out.jsonMode) {
@@ -106,13 +106,13 @@ const verifyCmd = command('verify')
 		out.log(`${result.pass} / ${result.total} assertions pass`);
 		if (result.failures.length === 0) return;
 
-		out.log('');
-		out.log('── failures ──');
-		const limit = flags['max-failures'] === 0 ? result.failures.length : flags['max-failures'];
+		out.log("");
+		out.log("── failures ──");
+		const limit = flags["max-failures"] === 0 ? result.failures.length : flags["max-failures"];
 		for (const f of result.failures.slice(0, limit)) {
 			const gotStr = f.got
-				? f.got.filter((s) => s !== 'source.recipe').join(' · ') || '(root only)'
-				: '(no token)';
+				? f.got.filter((s) => s !== "source.recipe").join(" · ") || "(root only)"
+				: "(no token)";
 			out.log(`  ${f.fixture}:${f.line}:${f.col}  expected ${f.capture}  got [${gotStr}]`);
 		}
 		if (result.failures.length > limit) {
@@ -122,9 +122,9 @@ const verifyCmd = command('verify')
 	});
 
 // ── app ─────────────────────────────────────────────────────────────────────
-export const app = cli('recipe-tmlang')
-	.version('0.1.0')
-	.description('TextMate grammar generator & verifier for the recipe DSL')
+export const app = cli("recipe-tmlang")
+	.version("0.1.0")
+	.description("TextMate grammar generator & verifier for the recipe DSL")
 	.command(generate)
 	.command(verifyCmd)
 	.completions();

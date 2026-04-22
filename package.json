@@ -2,15 +2,15 @@
 	"name": "recipe-tmlanguage",
 	"version": "0.1.0",
 	"description": "TextMate grammar for the recipe (.rx) pharmacological notation language — generated from the tree-sitter-recipe vocabulary.",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/kjanat/recipe-tmlanguage.git"
+	},
 	"license": "MIT",
 	"author": {
 		"name": "Kaj Kowalski",
 		"email": "info@kajkowalski.nl",
 		"url": "https://github.com/kjanat"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/kjanat/recipe-tmlanguage.git"
 	},
 	"type": "module",
 	"bin": {
@@ -25,10 +25,10 @@
 	],
 	"scripts": {
 		"cli": "bun cli.ts",
-		"generate": "bun cli.ts generate",
-		"verify": "bun cli.ts verify",
 		"fmt": "dprint fmt",
-		"typecheck": "tsc --noEmit"
+		"generate": "bun cli.ts generate",
+		"typecheck": "tsc --noEmit",
+		"verify": "bun cli.ts verify"
 	},
 	"dependencies": {
 		"@kjanat/dreamcli": "^2.1.0",

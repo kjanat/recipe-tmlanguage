@@ -109,17 +109,17 @@ assertion (`expanded.recipe:22:23`) points one column past the end of a
 ### Drop into Shiki
 
 ```ts
-import grammar from 'recipe-tmlanguage/dist/recipe.tmLanguage.json';
-import { createHighlighter } from 'shiki';
+import grammar from "recipe-tmlanguage/dist/recipe.tmLanguage.json";
+import { createHighlighter } from "shiki";
 
 const shiki = await createHighlighter({
-	themes: ['github-dark'],
+	themes: ["github-dark"],
 	langs: [grammar],
 });
 
 const html = shiki.codeToHtml(source, {
-	lang: 'recipe',
-	theme: 'github-dark',
+	lang: "recipe",
+	theme: "github-dark",
 });
 ```
 
