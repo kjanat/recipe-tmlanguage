@@ -1,8 +1,8 @@
 # recipe-tmlanguage
 
-TextMate grammar for the [recipe](https://github.com/kjanat/tree-sitter-recipe)
-pharmacological notation language, **generated** from the same JavaScript
-vocabulary modules that drive `tree-sitter-recipe`'s parser.
+TextMate grammar for the [recipe] pharmacological notation language,
+**generated** from the same JavaScript vocabulary modules that drive
+`tree-sitter-recipe`'s parser.
 
 Ships as `dist/recipe.tmLanguage.json` for consumption by Shiki, VS Code,
 Sublime Text, Atom, `vscode-textmate`, and anything else that speaks
@@ -16,10 +16,11 @@ plain `readonly string[]` modules under
 would mean copying those lists into regex alternations and re-copying them
 every time the parser is touched. Drift guaranteed.
 
-Instead, `scripts/generate.ts` imports those exact modules, escapes metachars,
-sorts alternatives longest-first (TextMate is first-match, not longest-match
-like tree-sitter), and emits a ready-to-ship JSON grammar. One source of
-truth, no sync burden.
+Instead, `src/grammar.ts` imports those exact modules through
+`tree-sitter-recipe`'s package `exports` map, escapes metachars, sorts
+alternatives longest-first (TextMate is first-match, not longest-match like
+tree-sitter), and emits a ready-to-ship JSON grammar. One source of truth,
+no sync burden.
 
 ## Scope map
 
@@ -50,40 +51,55 @@ grammar.
 
 ## Layout
 
-```
+```text
 recipe-tmlanguage/
-├── scripts/
-│   ├── generate.ts   # builds dist/recipe.tmLanguage.json from the vocab modules
-│   └── verify.ts     # re-tokenizes tree-sitter-recipe's own highlight fixtures
+├── cli.ts              # DreamCLI entry — `recipe-tmlang generate|verify`
+├── src/
+│   ├── grammar.ts      # pure: vocab → TextMate grammar object
+│   └── verifier.ts     # pure: tokenize fixtures, check scope assertions
 └── dist/
     └── recipe.tmLanguage.json
 ```
 
-## Usage
+## Setup
 
-### Regenerate
-
-Assumes `tree-sitter-recipe` is a sibling directory:
-
-```
-..
-├── tree-sitter-recipe/
-└── recipe-tmlanguage/   ← you are here
-```
+`tree-sitter-recipe` is pulled in via Bun's link mechanism. Run once in the
+sibling repo, then link here:
 
 ```sh
-bun install
-bun run generate
+cd ../tree-sitter-recipe && bun link
+cd ../recipe-tmlanguage && bun link tree-sitter-recipe && bun install
 ```
 
-### Verify
+## CLI
+
+Powered by [DreamCLI][dreamcli] — no hand-rolled argparse.
+
+```sh
+bun cli.ts --help
+```
+
+### `generate`
+
+```sh
+bun cli.ts generate                       # → dist/recipe.tmLanguage.json
+bun cli.ts generate --out foo.json        # custom path
+bun cli.ts generate --indent 2 --quiet    # 2-space indent, silent
+bun cli.ts generate --json                # machine-readable result on stdout
+```
+
+### `verify`
 
 Tokenizes every fixture in `tree-sitter-recipe/test/highlight/` with
 `vscode-textmate` + `vscode-oniguruma` (the same engine Shiki wraps) and
 asserts the scope at each caret marker matches the tree-sitter capture.
+Fixtures and the Oniguruma WASM are located via package `exports` — no
+relative paths to maintain.
 
 ```sh
-bun run verify
+bun cli.ts verify
+bun cli.ts verify --json                  # { pass, total, failures[] }
+bun cli.ts verify --max-failures 0        # print every failure
 ```
 
 Current status: **148 / 149** fixture assertions pass. The single failing
@@ -112,4 +128,10 @@ blocks immediately.
 
 ## License
 
-MIT — see `LICENSE`.
+[MIT][License] © Kaj Kowalski
+
+[recipe]: https://github.com/kjanat/tree-sitter-recipe
+[dreamcli]: https://npm.im/@kjanat/dreamcli
+[License]: LICENSE
+
+<!-- markdownlint-disable-file no-hard-tabs -->

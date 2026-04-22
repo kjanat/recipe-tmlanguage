@@ -26,7 +26,7 @@
 			"match": "#.*$"
 		},
 		{
-			"name": "meta.section.rx.recipe",
+			"name": "meta.section.ingredient.recipe",
 			"begin": "(?i)R/",
 			"beginCaptures": {
 				"0": {
