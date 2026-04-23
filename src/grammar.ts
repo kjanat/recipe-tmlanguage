@@ -6,15 +6,23 @@
  * Scopes are standard TextMate names with a `.recipe` suffix so themes paint
  * recipe blocks without a custom theme shipment.
  */
-import { COMPOUNDING, COMPOUNDING_MULTIWORD } from "tree-sitter-recipe/grammar/latin/compounding.js";
-import { CONDITIONAL, CONDITIONAL_MULTIWORD } from "tree-sitter-recipe/grammar/latin/conditional.js";
-import { DISPENSING, DISPENSING_MULTIWORD } from "tree-sitter-recipe/grammar/latin/dispensing.js";
-import { FORMS, FORMS_MULTIWORD } from "tree-sitter-recipe/grammar/latin/forms.js";
-import { FREQUENCY } from "tree-sitter-recipe/grammar/latin/frequency.js";
-import { ROUTE, ROUTE_MULTIWORD } from "tree-sitter-recipe/grammar/latin/route.js";
-import { TIMING, TIMING_MULTIWORD } from "tree-sitter-recipe/grammar/latin/timing.js";
-import { WARNING } from "tree-sitter-recipe/grammar/latin/warning.js";
-import { UNITS } from "tree-sitter-recipe/grammar/units/index.js";
+import {
+	COMPOUNDING,
+	COMPOUNDING_MULTIWORD,
+	CONDITIONAL,
+	CONDITIONAL_MULTIWORD,
+	DISPENSING,
+	DISPENSING_MULTIWORD,
+	FORMS,
+	FORMS_MULTIWORD,
+	FREQUENCY,
+	ROUTE,
+	ROUTE_MULTIWORD,
+	TIMING,
+	TIMING_MULTIWORD,
+	WARNING,
+} from "tree-sitter-recipe/grammar/latin";
+import { UNITS } from "tree-sitter-recipe/grammar/units";
 
 // ── scope map ───────────────────────────────────────────────────────────────
 export const SCOPE = {
@@ -209,7 +217,11 @@ export function buildGrammar(): BuildResult {
 	// would spuriously close a signa section because `.` is non-word.
 	const nextSection = "(?i)(?=R/|Da?/|S/)|\\z";
 
-	const makeSection = (begin: string, marker: string, wordScope: string): Pattern => ({
+	const makeSection = (
+		begin: string,
+		marker: string,
+		wordScope: string,
+	): Pattern => ({
 		name: `meta.section.${wordScope.split(".")[2] ?? "unknown"}.recipe`,
 		begin,
 		beginCaptures: { "0": { name: marker } },
@@ -221,8 +233,16 @@ export function buildGrammar(): BuildResult {
 	});
 
 	const rxSection = makeSection("(?i)R/", SCOPE.rxMarker, SCOPE.ingredientWord);
-	const dispenseSection = makeSection("(?i)Da?/", SCOPE.dispenseMarker, SCOPE.dispenseWord);
-	const signaSection = makeSection("(?i)S/", SCOPE.signaMarker, SCOPE.signaWord);
+	const dispenseSection = makeSection(
+		"(?i)Da?/",
+		SCOPE.dispenseMarker,
+		SCOPE.dispenseWord,
+	);
+	const signaSection = makeSection(
+		"(?i)S/",
+		SCOPE.signaMarker,
+		SCOPE.signaWord,
+	);
 
 	const grammar: Grammar = {
 		$schema: "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
@@ -248,10 +268,19 @@ export function buildGrammar(): BuildResult {
 			frequency: FREQUENCY.length,
 			timing: { single: TIMING.length, multi: TIMING_MULTIWORD.length },
 			route: { single: ROUTE.length, multi: ROUTE_MULTIWORD.length },
-			dispensing: { single: DISPENSING.length, multi: DISPENSING_MULTIWORD.length },
+			dispensing: {
+				single: DISPENSING.length,
+				multi: DISPENSING_MULTIWORD.length,
+			},
 			forms: { single: FORMS.length, multi: FORMS_MULTIWORD.length },
-			compounding: { single: COMPOUNDING.length, multi: COMPOUNDING_MULTIWORD.length },
-			conditional: { single: CONDITIONAL.length, multi: CONDITIONAL_MULTIWORD.length },
+			compounding: {
+				single: COMPOUNDING.length,
+				multi: COMPOUNDING_MULTIWORD.length,
+			},
+			conditional: {
+				single: CONDITIONAL.length,
+				multi: CONDITIONAL_MULTIWORD.length,
+			},
 			warning: WARNING.length,
 			units: UNITS.length,
 		},

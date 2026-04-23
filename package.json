@@ -42,7 +42,7 @@
 	},
 	"dependencies": {
 		"@kjanat/dreamcli": "^2.1.0",
-		"tree-sitter-recipe": "link:tree-sitter-recipe",
+		"tree-sitter-recipe": "npm:@jsr/kjanat__tree-sitter-recipe",
 		"vscode-oniguruma": "^2.0.1",
 		"vscode-textmate": "^9.2.0"
 	},
