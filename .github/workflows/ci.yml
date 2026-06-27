@@ -2,12 +2,16 @@ name: CI
 on: { push: { branches: [master] }, pull_request: null, workflow_call: null }
 permissions: { contents: read }
 jobs:
-  test:
+  node:
     runs-on: ubuntu-latest
+    env: { RUNNER_PM: bun }
     steps:
-      - uses: actions/checkout@v7
-      - uses: oven-sh/setup-bun@v2
+      - uses: ./.github/actions/ready
       - run: bun install --ignore-scripts
-      - run: bun --sequential generate bundle
-      - run: bun --parallel typecheck verify test lint
-      - run: node bin/recipe-tmlang.mjs --version
+      - run: run -s generate bundle
+      - run: run -p typecheck verify test lint
+      - run: run package.json:version
+  deno:
+    runs-on: ubuntu-latest
+    env: { RUNNER_PM: deno }
+    steps: [uses: ./.github/actions/ready, run: runner install -f deno:ci]
