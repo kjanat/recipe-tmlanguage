@@ -74,7 +74,7 @@ const alt = (items: readonly string[]): string =>
 const altMultiword = (items: readonly string[]): string =>
 	[...new Set(items)]
 		.sort((a, b) => b.length - a.length)
-		.map((s) => s.replace(/\./g, "\\.").replace(/\s+/g, "\\s+"))
+		.map((s) => escapeRegex(s).replace(/\s+/g, "\\s+"))
 		.join("|");
 
 // Word boundary that treats `.` as part of the token so `a.c.` doesn't match

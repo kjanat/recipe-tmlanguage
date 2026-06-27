@@ -9,5 +9,5 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install --ignore-scripts
       - run: bun --sequential generate bundle
-      - run: bun --parallel typecheck verify test
+      - run: bun --parallel typecheck verify test lint
       - run: node bin/recipe-tmlang.mjs --version
