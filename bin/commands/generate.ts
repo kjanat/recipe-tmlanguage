@@ -1,5 +1,5 @@
 import { buildGrammar, serializeGrammar } from "#grammar";
-import { command, flag } from "dreamcli";
+import { command, flag } from "@kjanat/dreamcli";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, resolve } from "node:path";

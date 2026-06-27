@@ -11,7 +11,7 @@
  * we branch on {@linkcode out.jsonMode | https://dreamcli.kjanat.com/reference/symbols/main/Out#jsonmode}.
  */
 import { homepage, name, repository, version } from "#pkg" with { type: "json" };
-import { cli } from "dreamcli";
+import { cli } from "@kjanat/dreamcli";
 import { generateCmd } from "./commands/generate.ts";
 import { verifyCmd } from "./commands/verify.ts";
 

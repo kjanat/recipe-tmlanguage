@@ -59,8 +59,7 @@
 		"verify": "run recipe-tmlang verify"
 	},
 	"dependencies": {
-		"dreamcli": "npm:@kjanat/dreamcli@^2.4.1",
-		"dreamcli/testkit": "npm:@kjanat/dreamcli@^2.4.1/testkit",
+		"@kjanat/dreamcli": "^2.4.1",
 		"tree-sitter-recipe": "^0.3.1",
 		"vscode-oniguruma": "^2.0.1",
 		"vscode-textmate": "^9.2.0"

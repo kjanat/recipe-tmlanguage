@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 
-import { runCommand } from "dreamcli/testkit";
+import { runCommand } from "@kjanat/dreamcli/testkit";
 
 import { generateCmd } from "#bin/commands/generate";
 import { verifyCmd } from "#bin/commands/verify";

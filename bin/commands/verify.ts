@@ -1,5 +1,5 @@
 import { verify } from "#verifier";
-import { command, flag } from "dreamcli";
+import { command, flag } from "@kjanat/dreamcli";
 import { createRequire } from "node:module";
 import { dirname, resolve } from "node:path";
 import { cwd, exit } from "node:process";
