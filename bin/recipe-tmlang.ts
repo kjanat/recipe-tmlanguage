@@ -21,7 +21,7 @@ import type { Out } from "dreamcli";
 import { buildGrammar, serializeGrammar } from "#grammar";
 import { verify } from "#verifier";
 
-import { homepage, repository, version } from "#pkg" with { type: "json" };
+import { homepage, name, repository, version } from "#pkg" with { type: "json" };
 
 const DEFAULT_OUT = `${resolve(import.meta.dirname, "..")}/recipe.tmLanguage.json`;
 
@@ -97,7 +97,7 @@ const verifyCmd = command("verify")
 		out.setExitCode(1);
 	});
 
-export const app = cli("recipe-tmlang").packageJson({ repository, homepage, version }).links()
+export const app = cli(name).packageJson({ repository, homepage, version }).links()
 	.description("TextMate grammar generator & verifier for the recipe DSL")
 	.command(generate)
 	.command(verifyCmd)
