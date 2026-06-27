@@ -5,7 +5,7 @@
 		"moduleResolution": "bundler",
 		"allowImportingTsExtensions": false,
 		"lib": ["ESNext"],
-		"types": ["bun"],
+		"types": ["bun", "tsdown"],
 		"strict": true,
 		"noUncheckedIndexedAccess": true,
 		"exactOptionalPropertyTypes": true,
@@ -18,5 +18,6 @@
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"verbatimModuleSyntax": true
-	}
+	},
+	"exclude": ["bin/*.mjs"]
 }

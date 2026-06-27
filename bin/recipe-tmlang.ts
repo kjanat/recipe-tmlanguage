@@ -21,9 +21,8 @@ import type { Out } from "dreamcli";
 import { buildGrammar, serializeGrammar } from "#grammar";
 import { verify } from "#verifier";
 
-import pkg from "#pkg" with { type: "json" };
+import { homepage, repository, version } from "#pkg" with { type: "json" };
 
-const { homepage, repository, version } = pkg;
 const DEFAULT_OUT = `${resolve(import.meta.dirname, "..")}/recipe.tmLanguage.json`;
 
 const TS_RX_DIR = resolve(dirname(fileURLToPath(import.meta.resolve("tree-sitter-recipe/package.json"))));

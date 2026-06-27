@@ -27,14 +27,11 @@
 	},
 	"exports": {
 		".": "./recipe.tmLanguage.json",
-		"./dist/*": "./dist/*",
 		"./package.json": "./package.json"
 	},
 	"main": "./recipe.tmLanguage.json",
 	"module": "./recipe.tmLanguage.json",
-	"bin": {
-		"recipe-tmlang": "bin/recipe-tmlang.ts"
-	},
+	"bin": "bin/recipe-tmlang.mjs",
 	"directories": {
 		"lib": "/src",
 		"bin": "/bin"
@@ -48,12 +45,13 @@
 		"/LICENSE"
 	],
 	"scripts": {
+		"bundle": "tsdown",
 		"check": "biome check",
 		"cli": "run recipe-tmlang",
 		"fmt": "dprint fmt",
 		"generate": "run recipe-tmlang generate",
 		"lint": "biome lint",
-		"prepack": "bun generate",
+		"prepack": "bun run generate && bun run bundle",
 		"recipe-tmlang": "bun bin/recipe-tmlang.ts",
 		"typecheck": "tsc --noEmit",
 		"verify": "run recipe-tmlang verify"
@@ -69,6 +67,7 @@
 		"@types/bun": "^1.3.14",
 		"dprint": "^0.54.0",
 		"runner-run": "^0.14.3",
+		"tsdown": "^0.22.3",
 		"typescript": "^6.0.3"
 	},
 	"packageManager": "bun@1.3.14",
