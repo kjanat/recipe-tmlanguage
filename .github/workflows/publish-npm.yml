@@ -13,6 +13,7 @@ jobs:
         with: { node-version: latest, registry-url: https://registry.npmjs.org }
       - run: bun install --frozen-lockfile --ignore-scripts
       - run: bun run generate
+      - run: bun run bundle
       - id: meta
         run: echo "url=https://npm.im/package/$(yq -r .name package.json)/v/$(yq -r .version package.json)" >> "$GITHUB_OUTPUT"
       - run: bunx npm@latest publish --provenance --access public --ignore-scripts
