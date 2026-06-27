@@ -10,10 +10,10 @@
  * {@link https://github.com/kjanat/dreamcli | DreamCLI}. `--json` is a DreamCLI built-in;
  * we branch on {@linkcode out.jsonMode | https://dreamcli.kjanat.com/reference/symbols/main/Out#jsonmode}.
  */
+import { generateCmd } from "#bin/commands/generate";
+import { verifyCmd } from "#bin/commands/verify";
 import { homepage, name, repository, version } from "#pkg" with { type: "json" };
 import { cli } from "@kjanat/dreamcli";
-import { generateCmd } from "./commands/generate.ts";
-import { verifyCmd } from "./commands/verify.ts";
 
 const app = cli(name).packageJson({ repository, homepage, version }).links()
 	.description("TextMate grammar generator & verifier for the recipe DSL")
