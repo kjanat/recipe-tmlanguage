@@ -4,3 +4,6 @@ bun.lockb
 *.log
 /recipe.tmLanguage.json
 /bin/*.mjs
+
+# deno byonm locks the full package.json tree — pure noise in a dual npm+deno setup
+deno.lock

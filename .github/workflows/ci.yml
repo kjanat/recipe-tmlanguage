@@ -18,4 +18,4 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: ./.github/actions/ready
-      - run: runner install -f deno:ci
+      - run: runner install deno:ci

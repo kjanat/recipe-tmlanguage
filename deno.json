@@ -53,5 +53,6 @@
 	"minimumDependencyAge": {
 		"exclude": ["jsr:@kjanat/tree-sitter-recipe", "jsr:@kjanat/dreamcli"]
 	},
-	"exclude": ["bin/*.mjs", "tsdown.config.ts", "test/"]
+	"exclude": ["bin/*.mjs", "tsdown.config.ts", "test/"],
+	"lock": false
 }
