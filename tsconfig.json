@@ -3,7 +3,7 @@
 		"target": "ESNext",
 		"module": "ESNext",
 		"moduleResolution": "bundler",
-		"allowImportingTsExtensions": false,
+		"allowImportingTsExtensions": true,
 		"lib": ["ESNext"],
 		"types": ["bun", "tsdown"],
 		"strict": true,
@@ -17,7 +17,7 @@
 		"checkJs": true,
 		"resolveJsonModule": true,
 		"isolatedModules": true,
-		"verbatimModuleSyntax": true
+		"verbatimModuleSyntax": true,
 	},
 	"exclude": ["bin/*.mjs"]
 }

@@ -117,7 +117,7 @@ export async function verify(opts: VerifyOptions): Promise<VerifyResult> {
 		readFileSync(opts.grammarPath, "utf-8"),
 		opts.grammarPath,
 	);
-	const registry = new Registry({ onigLib, loadGrammar: async () => null });
+	const registry = new Registry({ onigLib, loadGrammar: () => Promise.resolve(null) });
 	const grammar = await registry.addGrammar(rawGrammar);
 
 	const result: VerifyResult = { pass: 0, total: 0, failures: [] };

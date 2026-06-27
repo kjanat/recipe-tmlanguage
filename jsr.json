@@ -3,11 +3,20 @@
 	"name": "@kjanat/recipe-tmlanguage",
 	"version": "0.3.3",
 	"license": "MIT",
-	"exports": "./recipe.tmLanguage.ts",
+	"exports": {
+		".": "./recipe.tmLanguage.ts",
+		"./bin": "./bin/recipe-tmlang.ts"
+	},
 	"publish": {
 		"include": [
 			"recipe.tmLanguage.ts",
 			"recipe.tmLanguage.json",
+			"bin/recipe-tmlang.ts",
+			"bin/commands/generate.ts",
+			"bin/commands/verify.ts",
+			"src/grammar.ts",
+			"src/verifier.ts",
+			"package.json",
 			"LICENSE",
 			"README.md",
 			"jsr.json"
