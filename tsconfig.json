@@ -18,6 +18,13 @@
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"verbatimModuleSyntax": true,
+		"paths": {
+			"#pkg": ["./package.json", "./deno.json"],
+			"#bin/*": ["./bin/*"],
+			"#src/*": ["./src/*"],
+			"#deps/*": ["./src/deps/*"],
+			"#tmLang": ["./recipe.tmLanguage.json"],
+		}
 	},
 	"exclude": ["bin/*.mjs"]
 }

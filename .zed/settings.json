@@ -13,6 +13,8 @@
 		"TypeScript": { "language_servers": ["vtsls", "tsgo", "biome", "eslint", "oxc"] },
 		"C": { "formatter": ["language_server", "prettier"] },
 		"C++": { "formatter": ["language_server", "prettier"] },
-		"YAML": { "language_servers": ["!actions-languageserver"] }
-	}
+		"YAML": { "language_servers": ["!actions-languageserver"] },
+		"GitHub Actions": { "language_servers": ["!actions-languageserver"] }
+	},
+	"file_types": { "JSON": ["deno.lock"] }
 }

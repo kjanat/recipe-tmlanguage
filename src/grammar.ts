@@ -5,6 +5,8 @@
  *
  * Scopes are standard TextMate names with a `.recipe` suffix so themes paint
  * recipe blocks without a custom theme shipment.
+ *
+ * @module recipe-tmlanguage/src/grammar
  */
 import { COUNTERS, NUMBER_WORDS, PERIOD_PLURALS, PERIODS } from "tree-sitter-recipe/grammar/dutch";
 import {

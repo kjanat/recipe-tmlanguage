@@ -5,17 +5,15 @@
  *
  * No CLI concerns here; the caller supplies paths and decides how to present
  * the result (text table / JSON / exit code).
+ *
+ * @module recipe-tmlanguage/src/verifier
  */
 import { readdirSync, readFileSync } from "node:fs";
-import { createRequire } from "node:module";
 import { resolve } from "node:path";
 
-import type { StateStack } from "vscode-textmate";
-
-const require = createRequire(import.meta.url);
-const oniguruma: typeof import("vscode-oniguruma") = require("vscode-oniguruma");
-const textmate: typeof import("vscode-textmate") = require("vscode-textmate");
-const { parseRawGrammar, Registry } = textmate;
+import { createOnigLib } from "#deps/oniguruma.ts";
+import type { StateStack } from "#deps/textmate.ts";
+import { parseRawGrammar, Registry } from "#deps/textmate.ts";
 
 // ── capture → scope mapping (inverse of grammar.ts SCOPE) ───────────────────
 // Fixtures speak tree-sitter capture names; the tokenizer speaks TextMate
@@ -57,7 +55,6 @@ export type VerifyResult = {
 export type VerifyOptions = {
 	grammarPath: string;
 	fixturesDir: string;
-	onigWasmPath: string;
 };
 
 // ── fixture parser ──────────────────────────────────────────────────────────
@@ -105,13 +102,7 @@ function parseFixture(content: string, name: string): { source: string; asserts:
 
 // ── main ────────────────────────────────────────────────────────────────────
 export async function verify(opts: VerifyOptions): Promise<VerifyResult> {
-	const wasmBin = readFileSync(opts.onigWasmPath);
-	await oniguruma.loadWASM(wasmBin.buffer as ArrayBuffer);
-
-	const onigLib = Promise.resolve({
-		createOnigScanner: (patterns: string[]) => new oniguruma.OnigScanner(patterns),
-		createOnigString: (s: string) => new oniguruma.OnigString(s),
-	});
+	const onigLib = createOnigLib();
 
 	const rawGrammar = parseRawGrammar(
 		readFileSync(opts.grammarPath, "utf-8"),

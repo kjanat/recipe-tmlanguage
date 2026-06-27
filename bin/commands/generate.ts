@@ -1,13 +1,12 @@
-import { buildGrammar, serializeGrammar } from "#grammar";
+import { resolveImportMeta } from "#bin/lib/utils.ts";
+import { buildGrammar, serializeGrammar } from "#src/grammar.ts";
 import { command, flag } from "@kjanat/dreamcli";
 import { mkdirSync, writeFileSync } from "node:fs";
-import { createRequire } from "node:module";
 import { dirname, resolve } from "node:path";
 import { cwd } from "node:process";
 
 const indentOf = (raw: string): "tab" | number => (raw === "tab" ? "tab" : Number(raw));
-const require = createRequire(import.meta.url);
-const DEFAULT_OUT = `${dirname(require.resolve("#pkg"))}/recipe.tmLanguage.json`;
+const DEFAULT_OUT = resolveImportMeta("#tmLang");
 
 export const generateCmd = command("generate")
 	.description("Build the TextMate grammar from the tree-sitter-recipe vocabulary")

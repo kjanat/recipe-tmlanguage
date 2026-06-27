@@ -1,7 +1,7 @@
 import { defineConfig } from "tsdown";
 
 export default defineConfig({
-	entry: { "recipe-tmlang": "./bin/recipe-tmlang.ts" },
+	entry: { "cli": "./bin/cli.ts" },
 	outDir: "bin",
 	format: "esm",
 	platform: "node",

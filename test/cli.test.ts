@@ -5,8 +5,8 @@ import { resolve } from "node:path";
 
 import { runCommand } from "@kjanat/dreamcli/testkit";
 
-import { generateCmd } from "#bin/commands/generate";
-import { verifyCmd } from "#bin/commands/verify";
+import { generateCmd } from "#bin/commands/generate.ts";
+import { verifyCmd } from "#bin/commands/verify.ts";
 
 const grammarPath = resolve(tmpdir(), "recipe.tmLanguage.cli-test.json");
 

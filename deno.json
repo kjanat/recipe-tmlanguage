@@ -4,27 +4,40 @@
 	"license": "MIT",
 	"exports": {
 		".": "./recipe.tmLanguage.ts",
-		"./bin": "./bin/recipe-tmlang.ts"
+		"./bin": "./bin/cli.ts",
+		"./src/verifier": "./src/verifier.ts",
+		"./src/grammar": "./src/grammar.ts"
 	},
 	"tasks": {
 		"check": "deno check",
 		"lint": "deno lint",
-		"version": "deno run -A ./bin/recipe-tmlang.mjs --version",
+		"version": "deno run -A ./bin/cli.ts --version",
 		"ci": {
 			"command": "echo 'all gucci'",
 			"dependencies": ["check", "lint", "version"]
 		}
 	},
 	"imports": {
+		"#bin/lib/": "./bin/lib/",
+		"#src/": "./src/",
+		"#deps/": "./src/deps/",
+		"#pkg": "./deno.json",
+		"#tmLang": "./recipe.tmLanguage.json",
 		"@kjanat/dreamcli": "jsr:@kjanat/dreamcli@^2.4.1",
 		"tree-sitter-recipe": "jsr:@kjanat/tree-sitter-recipe@^0.3.1",
-		"tree-sitter-recipe/": "jsr:@kjanat/tree-sitter-recipe@^0.3.1/"
+		"tree-sitter-recipe/": "jsr:@kjanat/tree-sitter-recipe@^0.3.1/",
+		"tree-sitter-recipe/package.json": "jsr:@kjanat/tree-sitter-recipe@^0.3.1/package.json",
+		"tree-sitter-recipe/grammar/dutch": "jsr:@kjanat/tree-sitter-recipe@^0.3.1/grammar/dutch",
+		"tree-sitter-recipe/grammar/latin": "jsr:@kjanat/tree-sitter-recipe@^0.3.1/grammar/latin",
+		"tree-sitter-recipe/grammar/units": "jsr:@kjanat/tree-sitter-recipe@^0.3.1/grammar/units",
+		"vscode-oniguruma": "npm:vscode-oniguruma@^2.0.1",
+		"vscode-textmate": "npm:vscode-textmate@^9.3.2"
 	},
 	"publish": {
 		"include": [
 			"recipe.tmLanguage.ts",
 			"recipe.tmLanguage.json",
-			"bin/recipe-tmlang.ts",
+			"bin/cli.ts",
 			"bin/commands/generate.ts",
 			"bin/commands/verify.ts",
 			"src/grammar.ts",
@@ -35,8 +48,10 @@
 			"deno.json"
 		]
 	},
+	"preferPackageJson": false,
 	"nodeModulesDir": "none",
 	"minimumDependencyAge": {
 		"exclude": ["jsr:@kjanat/tree-sitter-recipe", "jsr:@kjanat/dreamcli"]
-	}
+	},
+	"exclude": ["bin/*.mjs", "tsdown.config.ts", "test/"]
 }

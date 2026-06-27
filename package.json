@@ -21,19 +21,20 @@
 	},
 	"type": "module",
 	"imports": {
-		"#bin/*": "./bin/*.ts",
+		"#bin/*": "./bin/*",
+		"#src/*": "./src/*",
+		"#deps/*": "./src/deps/*",
 		"#pkg": "./package.json",
-		"#grammar": "./src/grammar.ts",
-		"#verifier": "./src/verifier.ts"
+		"#tmLang": "./recipe.tmLanguage.json"
 	},
 	"exports": {
 		".": "./recipe.tmLanguage.json",
-		"./bin": "./bin/recipe-tmlang.mjs",
+		"./bin": "./bin/cli.mjs",
 		"./package.json": "./package.json"
 	},
 	"main": "./recipe.tmLanguage.json",
 	"module": "./recipe.tmLanguage.json",
-	"bin": "bin/recipe-tmlang.mjs",
+	"bin": "bin/cli.mjs",
 	"directories": {
 		"lib": "/src",
 		"bin": "/bin"
@@ -54,17 +55,17 @@
 		"generate": "run recipe-tmlang generate",
 		"lint": "biome lint",
 		"prepack": "bun run generate && bun run bundle",
-		"recipe-tmlang": "bun bin/recipe-tmlang.ts",
+		"recipe-tmlang": "bun bin/cli.ts",
 		"test": "bun test",
 		"typecheck": "tsc --noEmit",
 		"verify": "run recipe-tmlang verify",
-		"version": "node bin/recipe-tmlang.mjs --version"
+		"version": "node bin/cli.mjs --version"
 	},
 	"dependencies": {
 		"@kjanat/dreamcli": "^2.4.1",
 		"tree-sitter-recipe": "^0.3.1",
 		"vscode-oniguruma": "^2.0.1",
-		"vscode-textmate": "^9.2.0"
+		"vscode-textmate": "^9.3.2"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.1",

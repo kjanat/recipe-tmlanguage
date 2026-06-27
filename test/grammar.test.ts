@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test";
 
-import { buildGrammar, serializeGrammar } from "#grammar";
+import { buildGrammar, serializeGrammar } from "#src/grammar.ts";
 
 test("buildGrammar yields a populated source.recipe grammar", () => {
 	const { grammar, stats } = buildGrammar();

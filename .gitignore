@@ -3,4 +3,4 @@ bun.lockb
 .DS_Store
 *.log
 /recipe.tmLanguage.json
-/bin/recipe-tmlang.mjs
+/bin/*.mjs

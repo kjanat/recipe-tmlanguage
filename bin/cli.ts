@@ -12,9 +12,9 @@
  *
  * @module recipe-tmlanguage/bin
  */
-import { generateCmd } from "#bin/commands/generate";
-import { verifyCmd } from "#bin/commands/verify";
 import { cli } from "@kjanat/dreamcli";
+import { generateCmd } from "./commands/generate.ts";
+import { verifyCmd } from "./commands/verify.ts";
 
 const app = cli("recipe-tmlanguage").packageJson({ from: import.meta.url }).links()
 	.description("TextMate grammar generator & verifier for the recipe DSL")
