@@ -6,6 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     env: { RUNNER_PM: bun }
     steps:
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/ready
       - run: bun install --ignore-scripts
       - run: run -s generate bundle
@@ -14,4 +15,7 @@ jobs:
   deno:
     runs-on: ubuntu-latest
     env: { RUNNER_PM: deno }
-    steps: [uses: ./.github/actions/ready, run: runner install -f deno:ci]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/ready
+      - run: runner install -f deno:ci

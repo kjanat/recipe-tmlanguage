@@ -1,6 +1,6 @@
 {
 	"name": "@kjanat/recipe-tmlanguage",
-	"version": "0.3.4",
+	"version": "0.3.5",
 	"license": "MIT",
 	"exports": {
 		".": "./recipe.tmLanguage.ts",
@@ -35,5 +35,8 @@
 			"deno.json"
 		]
 	},
-	"nodeModulesDir": "none"
+	"nodeModulesDir": "none",
+	"minimumDependencyAge": {
+		"exclude": ["jsr:@kjanat/tree-sitter-recipe", "jsr:@kjanat/dreamcli"]
+	}
 }

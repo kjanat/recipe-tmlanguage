@@ -12,5 +12,5 @@ jobs:
       - run: bun install --frozen-lockfile --ignore-scripts
       - run: bun run generate
       - id: meta
-        run: echo "url=https://jsr.io/$(yq -r .name jsr.json)@$(yq -r .version jsr.json)" >> "$GITHUB_OUTPUT"
+        run: echo "url=https://jsr.io/$(yq -r .name deno.json)@$(yq -r .version deno.json)" >> "$GITHUB_OUTPUT"
       - run: bunx jsr publish

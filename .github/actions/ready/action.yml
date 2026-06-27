@@ -2,9 +2,4 @@ name: get ready
 description: go
 runs:
   using: composite
-  steps: [
-    uses: actions/checkout@v7,
-    uses: kjanat/runner@master,
-    uses: denoland/setup-deno@v2,
-    uses: oven-sh/setup-bun@v2,
-  ]
+  steps: [uses: kjanat/runner@master, uses: denoland/setup-deno@v2, uses: oven-sh/setup-bun@v2]

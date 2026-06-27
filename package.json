@@ -1,6 +1,6 @@
 {
 	"name": "recipe-tmlanguage",
-	"version": "0.3.4",
+	"version": "0.3.5",
 	"description": "TextMate grammar for the recipe (.recipe) pharmacological notation language.",
 	"keywords": [
 		"dreamcli",
