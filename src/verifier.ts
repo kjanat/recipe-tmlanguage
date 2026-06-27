@@ -7,10 +7,15 @@
  * the result (text table / JSON / exit code).
  */
 import { readdirSync, readFileSync } from "node:fs";
+import { createRequire } from "node:module";
 import { resolve } from "node:path";
 
-import * as oniguruma from "vscode-oniguruma";
-import { INITIAL, parseRawGrammar, Registry } from "vscode-textmate";
+import type { StateStack } from "vscode-textmate";
+
+const require = createRequire(import.meta.url);
+const oniguruma: typeof import("vscode-oniguruma") = require("vscode-oniguruma");
+const textmate: typeof import("vscode-textmate") = require("vscode-textmate");
+const { parseRawGrammar, Registry } = textmate;
 
 // ── capture → scope mapping (inverse of grammar.ts SCOPE) ───────────────────
 // Fixtures speak tree-sitter capture names; the tokenizer speaks TextMate
@@ -123,7 +128,7 @@ export async function verify(opts: VerifyOptions): Promise<VerifyResult> {
 		const { source, asserts } = parseFixture(content, name);
 
 		const sourceLines = source.split("\n");
-		let ruleStack = INITIAL;
+		let ruleStack: StateStack | null = null;
 		const perLine: { start: number; end: number; scopes: string[] }[][] = [];
 		for (const line of sourceLines) {
 			const r = grammar.tokenizeLine(line, ruleStack);
@@ -138,7 +143,11 @@ export async function verify(opts: VerifyOptions): Promise<VerifyResult> {
 		for (const a of asserts) {
 			result.total += 1;
 			const tokens = perLine[a.targetLine - 1];
-			const hit = tokens?.find((t) => a.col >= t.start && a.col < t.end);
+			// A caret may sit one past the final character (a token's exclusive
+			// end at end-of-line) — tree-sitter's own harness accepts that, so
+			// fall back to the token whose right boundary equals the column.
+			const hit = tokens?.find((t) => a.col >= t.start && a.col < t.end)
+				?? tokens?.find((t) => a.col === t.end);
 			const expected = CAPTURE_EXPECTS[a.capture];
 			const passed = !!(hit && expected && hit.scopes.some((s) => s.startsWith(expected)));
 			if (passed) {

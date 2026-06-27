@@ -1,0 +1,27 @@
+name: Release
+on: { push: { tags: ["v*"] }, workflow_dispatch: null }
+permissions: { contents: read, id-token: write }
+jobs:
+  gate:
+    runs-on: ubuntu-slim
+    defaults: { run: { shell: pwsh } }
+    steps: [
+      { uses: actions/checkout@v7, with: { sparse-checkout: . } },
+      { run: "$p,$j='package.json','jsr.json'|%{jq .version $_};if($p-ne$j){'::error::version mismatch: {0} != {1}' -f $p, $j;exit 1}" },
+    ]
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --ignore-scripts
+      - run: bun run typecheck
+      - run: bun run generate
+      - run: bun run verify
+  npm:
+    needs: [gate, test]
+    uses: ./.github/workflows/publish-npm.yml
+    secrets: inherit
+  jsr:
+    needs: [gate, test]
+    uses: ./.github/workflows/publish-jsr.yml

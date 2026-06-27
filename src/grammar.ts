@@ -6,6 +6,7 @@
  * Scopes are standard TextMate names with a `.recipe` suffix so themes paint
  * recipe blocks without a custom theme shipment.
  */
+import { COUNTERS, NUMBER_WORDS, PERIOD_PLURALS, PERIODS } from "tree-sitter-recipe/grammar/dutch";
 import {
 	COMPOUNDING,
 	COMPOUNDING_MULTIWORD,
@@ -24,7 +25,7 @@ import {
 } from "tree-sitter-recipe/grammar/latin";
 import { UNITS } from "tree-sitter-recipe/grammar/units";
 
-// ── scope map ───────────────────────────────────────────────────────────────
+// scope map
 export const SCOPE = {
 	rxMarker: "keyword.control.directive.rx.recipe",
 	dispenseMarker: "keyword.control.directive.dispense.recipe",
@@ -57,7 +58,7 @@ export const SCOPE = {
 	dispenseWord: "variable.other.dispense.recipe",
 } as const;
 
-// ── regex helpers ───────────────────────────────────────────────────────────
+// regex helpers
 // TextMate uses Oniguruma — first-match, not longest-match like tree-sitter —
 // so we always sort alternatives longest-first before joining with `|`.
 const REGEX_METACHARS = /[.*+?^${}()|[\]\\]/g;
@@ -80,7 +81,7 @@ const altMultiword = (items: readonly string[]): string =>
 // inside `a.c.e.`. `\b` alone is not enough because `.` is non-word.
 const wb = (pattern: string): string => `(?<![\\w.])(?:${pattern})(?![\\w.])`;
 
-// ── types ───────────────────────────────────────────────────────────────────
+// types
 type Capture = { name?: string; patterns?: Pattern[] };
 type Captures = Record<string, Capture>;
 export type Pattern =
@@ -127,10 +128,9 @@ export type BuildResult = {
 	stats: BuildStats;
 };
 
-// ── grammar assembly ────────────────────────────────────────────────────────
+// grammar assembly
 export function buildGrammar(): BuildResult {
-	// Dose must come before bare number, else "50" matches first and leaves
-	// "mg" to fall to the word fallback.
+	// Dose must come before bare number, else "50" matches first and leaves "mg" to fall to the word fallback.
 	const doseMatch: Pattern = {
 		match: `(\\d+(?:[.,]\\d+)?)\\s*(${alt(UNITS)})(?![A-Za-zÀ-ÿ])`,
 		captures: {
@@ -199,6 +199,31 @@ export function buildGrammar(): BuildResult {
 		{ name: SCOPE.lineComment, match: "#.*$" },
 	];
 
+	// Dutch patient-prose frequency, built from the tree-sitter-recipe
+	// `grammar/dutch` vocab. The whole phrase paints as frequency, mirroring
+	// the upstream highlights — `(frequency (number) @keyword.repeat)`,
+	// `(count_word) @keyword.repeat`, `(period) @keyword.repeat` — so the
+	// leading count (digit or spelled) is part of the frequency, not a dose.
+	const period = alt(PERIODS);
+	const periodNoun = alt([...PERIOD_PLURALS, ...PERIODS]);
+	const dutchFrequency: Pattern[] = [
+		// interval: "om de [andere] [N] uur|dag|dagen|…"
+		{
+			match: `(?i)\\bom[ \\t]+de(?:[ \\t]+andere)?(?:[ \\t]+\\d+)?[ \\t]+(?:${periodNoun})\\b`,
+			name: SCOPE.frequency,
+		},
+		// digit cadence: "3 keer per dag", "3x daags", "2 maal per week"
+		{
+			match: `(?i)\\b\\d+[ \\t]*(?:${alt(COUNTERS)})[ \\t]+(?:per[ \\t]+(?:${period})|daags)\\b`,
+			name: SCOPE.frequency,
+		},
+		// spelled count word: "driemaal", "eenmaal per dag", "driemaal daags"
+		{
+			match: `(?i)\\b(?:${alt(NUMBER_WORDS)})[ \\t]*maal(?:[ \\t]+(?:daags|per[ \\t]+(?:${period})))?\\b`,
+			name: SCOPE.frequency,
+		},
+	];
+
 	// Shared atoms inside every section. Order = first-match priority.
 	const sharedAtoms: Pattern[] = [
 		...comments,
@@ -206,15 +231,18 @@ export function buildGrammar(): BuildResult {
 		dtdDirective,
 		fillTo,
 		compactFrequency,
+		...dutchFrequency,
 		doseMatch,
 		...latinAbbrevs,
 		bareNumber,
 		punctuation,
 	];
 
-	// Sections end only at the literal next marker (R/, Da/, D/, S/) or EOF.
-	// The trailing slash is load-bearing: without it, `s\b` inside `s.o.s.`
-	// would spuriously close a signa section because `.` is non-word.
+	/**
+	 * Sections end only at the literal next marker (R/, Da/, D/, S/) or EOF.
+	 * The trailing slash is load-bearing: without it, `s\b` inside `s.o.s.`
+	 * would spuriously close a signa section because `.` is non-word.
+	 */
 	const nextSection = "(?i)(?=R/|Da?/|S/)|\\z";
 
 	const makeSection = (
@@ -248,7 +276,7 @@ export function buildGrammar(): BuildResult {
 		$schema: "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 		name: "Recipe",
 		scopeName: "source.recipe",
-		fileTypes: ["recipe", "rx"],
+		fileTypes: ["recipe"],
 		patterns: [
 			...comments,
 			rxSection,

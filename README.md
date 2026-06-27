@@ -1,5 +1,8 @@
 # recipe-tmlanguage
 
+[![NPM](https://img.shields.io/npm/v/recipe-tmlanguage?logo=npm&labelColor=CB3837&color=black)][npm]
+[![JSR](https://img.shields.io/jsr/v/@kjanat/recipe-tmlanguage?logoColor=083344&logo=jsr&logoSize=auto&label=&labelColor=f7df1e&color=black)][jsr]
+
 TextMate grammar for the [recipe] pharmacological notation language,
 **generated** from the same JavaScript vocabulary modules that drive
 `tree-sitter-recipe`'s parser.
@@ -130,8 +133,10 @@ blocks immediately.
 
 [MIT][License] © Kaj Kowalski
 
-[recipe]: https://github.com/kjanat/tree-sitter-recipe
-[dreamcli]: https://npm.im/@kjanat/dreamcli
 [License]: LICENSE
+[dreamcli]: https://npm.im/@kjanat/dreamcli
+[jsr]: https://jsr.io/@kjanat/recipe-tmlanguage
+[npm]: https://npm.im/recipe-tmlanguage
+[recipe]: https://github.com/kjanat/tree-sitter-recipe
 
 <!-- markdownlint-disable-file no-hard-tabs -->
