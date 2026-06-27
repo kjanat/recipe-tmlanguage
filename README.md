@@ -7,14 +7,15 @@ TextMate grammar for the [recipe] pharmacological notation language,
 **generated** from the same JavaScript vocabulary modules that drive
 `tree-sitter-recipe`'s parser.
 
-Ships as `dist/recipe.tmLanguage.json` for consumption by Shiki, VS Code,
-Sublime Text, Atom, `vscode-textmate`, and anything else that speaks
-TextMate.
+Ships as `recipe.tmLanguage.json` (the package's main export) — load it in
+Shiki, a VS Code language extension, Monaco (via `monaco-textmate`), or any
+other `vscode-textmate` host.
 
 ## Why generate, not author
 
-The parser's vocabulary (`FREQUENCY`, `TIMING`, `ROUTE`, …, `UNITS`) lives in
-plain `readonly string[]` modules under
+The parser's vocabulary (`FREQUENCY`, `TIMING`, `ROUTE`, …, `UNITS`, plus the
+Dutch patient-prose frequency vocab in `grammar/dutch`) lives in plain
+`readonly string[]` modules under
 `tree-sitter-recipe/grammar/`. Authoring a parallel TextMate grammar by hand
 would mean copying those lists into regex alternations and re-copying them
 every time the parser is touched. Drift guaranteed.
@@ -56,22 +57,32 @@ grammar.
 
 ```text
 recipe-tmlanguage/
-├── cli.ts              # DreamCLI entry — `recipe-tmlang generate|verify`
+├── bin/
+│   └── recipe-tmlang.ts    # DreamCLI entry — `recipe-tmlang generate|verify`
 ├── src/
-│   ├── grammar.ts      # pure: vocab → TextMate grammar object
-│   └── verifier.ts     # pure: tokenize fixtures, check scope assertions
-└── dist/
-    └── recipe.tmLanguage.json
+│   ├── grammar.ts          # pure: vocab → TextMate grammar object
+│   └── verifier.ts         # pure: tokenize fixtures, check scope assertions
+├── recipe.tmLanguage.json  # generated grammar (the main export)
+└── recipe.tmLanguage.ts    # typed re-export of the JSON
 ```
 
-## Setup
-
-`tree-sitter-recipe` is pulled in via Bun's link mechanism. Run once in the
-sibling repo, then link here:
+## Install
 
 ```sh
-cd ../tree-sitter-recipe && bun link
-cd ../recipe-tmlanguage && bun link tree-sitter-recipe && bun install
+bun add recipe-tmlanguage        # or: npm install recipe-tmlanguage
+```
+
+The grammar is pre-generated in the package — no build step for consumers.
+
+## Develop
+
+`tree-sitter-recipe` is a regular npm dependency now, so a plain install is
+all the setup there is:
+
+```sh
+bun install
+bun run generate     # rebuild recipe.tmLanguage.json
+bun run verify       # check scopes against the upstream fixtures
 ```
 
 ## CLI
@@ -79,16 +90,16 @@ cd ../recipe-tmlanguage && bun link tree-sitter-recipe && bun install
 Powered by [DreamCLI][dreamcli] — no hand-rolled argparse.
 
 ```sh
-bun cli.ts --help
+npx recipe-tmlanguage --help   # or: bunx recipe-tmlanguage --help
 ```
 
 ### `generate`
 
 ```sh
-bun cli.ts generate                       # → dist/recipe.tmLanguage.json
-bun cli.ts generate --out foo.json        # custom path
-bun cli.ts generate --indent 2 --quiet    # 2-space indent, silent
-bun cli.ts generate --json                # machine-readable result on stdout
+npx recipe-tmlanguage generate                    # → recipe.tmLanguage.json
+npx recipe-tmlanguage generate --out foo.json     # custom path
+npx recipe-tmlanguage generate --indent 2 --quiet # 2-space indent, silent
+npx recipe-tmlanguage generate --json             # machine-readable on stdout
 ```
 
 ### `verify`
@@ -100,34 +111,23 @@ Fixtures and the Oniguruma WASM are located via package `exports` — no
 relative paths to maintain.
 
 ```sh
-bun cli.ts verify
-bun cli.ts verify --json                  # { pass, total, failures[] }
-bun cli.ts verify --max-failures 0        # print every failure
+npx recipe-tmlanguage verify
+npx recipe-tmlanguage verify --json           # { pass, total, failures[] }
+npx recipe-tmlanguage verify --max-failures 0 # print every failure
 ```
 
-Current status: **148 / 149** fixture assertions pass. The single failing
-assertion (`expanded.recipe:22:23`) points one column past the end of a
-23-character source line — a fixture off-by-one, not a grammar defect.
+Current status: **149 / 149** fixture assertions pass.
 
-### Drop into Shiki
+### Use with Shiki
 
-```ts
-import grammar from "recipe-tmlanguage/dist/recipe.tmLanguage.json";
-import { createHighlighter } from "shiki";
+Don't register the raw JSON yourself — its grammar name is `Recipe`, which
+won't match a `lang: "recipe"` lookup. Reach for [`recipe-shiki`][recipe-shiki]
+instead: it wraps this grammar in a `LanguageRegistration` with the canonical
+lang `recipe` (and alias `rx`).
 
-const shiki = await createHighlighter({
-	themes: ["github-dark"],
-	langs: [grammar],
-});
-
-const html = shiki.codeToHtml(source, {
-	lang: "recipe",
-	theme: "github-dark",
-});
-```
-
-The scope names are standard TextMate, so any Shiki theme paints recipe
-blocks immediately.
+For any other `vscode-textmate` host, load `recipe.tmLanguage.json` directly —
+grammar name `Recipe`, scope `source.recipe`. The scopes are standard TextMate,
+so any theme paints recipe blocks immediately.
 
 ## License
 
@@ -138,5 +138,6 @@ blocks immediately.
 [jsr]: https://jsr.io/@kjanat/recipe-tmlanguage
 [npm]: https://npm.im/recipe-tmlanguage
 [recipe]: https://github.com/kjanat/tree-sitter-recipe
+[recipe-shiki]: https://github.com/kjanat/recipe-shiki
 
 <!-- markdownlint-disable-file no-hard-tabs -->
