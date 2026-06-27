@@ -1,6 +1,6 @@
 {
 	"name": "recipe-tmlanguage",
-	"version": "0.3.1",
+	"version": "0.3.2",
 	"description": "TextMate grammar for the recipe (.recipe) pharmacological notation language.",
 	"keywords": [
 		"dreamcli",
@@ -58,7 +58,7 @@
 	},
 	"dependencies": {
 		"dreamcli": "npm:@kjanat/dreamcli@^2.4.0",
-		"tree-sitter-recipe": "0.3.0",
+		"tree-sitter-recipe": "^0.3.1",
 		"vscode-oniguruma": "^2.0.1",
 		"vscode-textmate": "^9.2.0"
 	},

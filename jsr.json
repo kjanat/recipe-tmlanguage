@@ -1,9 +1,12 @@
 {
 	"$schema": "https://jsr.io/schema/config-file.v1.json",
 	"name": "@kjanat/recipe-tmlanguage",
-	"version": "0.3.1",
+	"version": "0.3.2",
 	"license": "MIT",
-	"exports": "./recipe.tmLanguage.ts",
+	"exports": {
+		".": "./recipe.tmLanguage.ts",
+		"./bin/recipe-tmlang": "./bin/recipe-tmlang.ts"
+	},
 	"publish": {
 		"include": [
 			"bin/recipe-tmlang.ts",
