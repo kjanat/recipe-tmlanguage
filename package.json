@@ -21,6 +21,7 @@
 	},
 	"type": "module",
 	"imports": {
+		"#bin/*": "./bin/*.ts",
 		"#pkg": "./package.json",
 		"#grammar": "./src/grammar.ts",
 		"#verifier": "./src/verifier.ts"
@@ -53,11 +54,13 @@
 		"lint": "biome lint",
 		"prepack": "bun run generate && bun run bundle",
 		"recipe-tmlang": "bun bin/recipe-tmlang.ts",
+		"test": "bun test",
 		"typecheck": "tsc --noEmit",
 		"verify": "run recipe-tmlang verify"
 	},
 	"dependencies": {
-		"dreamcli": "npm:@kjanat/dreamcli@^2.4.0",
+		"dreamcli": "npm:@kjanat/dreamcli@^2.4.1",
+		"dreamcli/testkit": "npm:@kjanat/dreamcli@^2.4.1/testkit",
 		"tree-sitter-recipe": "^0.3.1",
 		"vscode-oniguruma": "^2.0.1",
 		"vscode-textmate": "^9.2.0"

@@ -19,16 +19,18 @@ export const generateCmd = command("generate")
 		const outAbs = resolve(cwd(), flags.out);
 		mkdirSync(dirname(outAbs), { recursive: true });
 		writeFileSync(outAbs, serialized);
-		if (out.jsonMode) {
-			out.json({ ok: true, outPath: outAbs, bytes: serialized.length, stats });
+		const { json, jsonMode, log } = out;
+
+		if (jsonMode) {
+			json({ ok: true, outPath: outAbs, bytes: serialized.length, stats });
 			return;
 		}
 		if (flags.quiet) return;
 
-		out.log(`wrote ${outAbs}`);
-		out.log(`  ${stats.topLevelPatterns} top-level patterns · ${serialized.length} bytes`);
+		log(`wrote ${outAbs}`);
+		log(`  ${stats.topLevelPatterns} top-level patterns · ${serialized.length} bytes`);
 		const v = stats.vocab;
-		out.log(
+		log(
 			`  vocab: ${v.frequency} frequency · ${v.timing.single}+${v.timing.multi} timing · ${v.route.single}+${v.route.multi} route · ${v.dispensing.single}+${v.dispensing.multi} dispensing · ${v.forms.single}+${v.forms.multi} forms · ${v.compounding.single}+${v.compounding.multi} compounding · ${v.conditional.single}+${v.conditional.multi} conditional · ${v.warning} warning · ${v.units} units`,
 		);
 	});

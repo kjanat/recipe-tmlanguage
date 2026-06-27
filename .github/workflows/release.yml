@@ -9,20 +9,6 @@ jobs:
       { uses: actions/checkout@v7, with: { sparse-checkout: . } },
       { run: "$p,$j='package.json','jsr.json'|%{jq .version $_};if($p-ne$j){'::error::version mismatch: {0} != {1}' -f $p, $j;exit 1}" },
     ]
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: oven-sh/setup-bun@v2
-      - run: bun install --ignore-scripts
-      - run: bun run generate
-      - run: bun run bundle
-      - run: bun run typecheck
-      - run: bun run verify
-      - run: node bin/recipe-tmlang.mjs --version
-  npm:
-    needs: [gate, test]
-    uses: ./.github/workflows/publish-npm.yml
-  jsr:
-    needs: [gate, test]
-    uses: ./.github/workflows/publish-jsr.yml
+  ci: { uses: ./.github/workflows/ci.yml }
+  npm: { needs: [gate, ci], uses: ./.github/workflows/publish-npm.yml }
+  jsr: { needs: [gate, ci], uses: ./.github/workflows/publish-jsr.yml }

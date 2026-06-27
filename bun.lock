@@ -5,7 +5,8 @@
     "": {
       "name": "recipe-tmlanguage",
       "dependencies": {
-        "dreamcli": "npm:@kjanat/dreamcli@^2.4.0",
+        "dreamcli": "npm:@kjanat/dreamcli@^2.4.1",
+        "dreamcli/testkit": "npm:@kjanat/dreamcli@^2.4.1/testkit",
         "tree-sitter-recipe": "^0.3.1",
         "vscode-oniguruma": "^2.0.1",
         "vscode-textmate": "^9.2.0",
@@ -176,7 +177,9 @@
 
     "dprint": ["dprint@0.54.0", "", { "optionalDependencies": { "@dprint/darwin-arm64": "0.54.0", "@dprint/darwin-x64": "0.54.0", "@dprint/linux-arm64-glibc": "0.54.0", "@dprint/linux-arm64-musl": "0.54.0", "@dprint/linux-loong64-glibc": "0.54.0", "@dprint/linux-loong64-musl": "0.54.0", "@dprint/linux-riscv64-glibc": "0.54.0", "@dprint/linux-x64-glibc": "0.54.0", "@dprint/linux-x64-musl": "0.54.0", "@dprint/win32-arm64": "0.54.0", "@dprint/win32-x64": "0.54.0" }, "bin": { "dprint": "bin.cjs" } }, "sha512-sIy25poR2gRP/tWPTgP0MPeJoJcpv0xzYDcsboapvthbEt1Qw3Al252CA0xFyIh2cYEGGKyBJtKokryv4ERlJw=="],
 
-    "dreamcli": ["@kjanat/dreamcli@2.4.0", "", {}, "sha512-N7yQbemDSeeottqvigHEMT0eWXapVWhtQdFbgVx9idW99uvlHf2U2g0b8SZ/hKkqIkFIGH9JMXF3fSRXyiPjyg=="],
+    "dreamcli": ["@kjanat/dreamcli@2.4.1", "", {}, "sha512-vb0uMFblEIcJ+2YKyU9GqX7P5MaSZZp7uen2PkFF2OxJ8LPB8AVKERUAFBr/2m1e19U98I7MmDOjN7cjfiPT6w=="],
+
+    "dreamcli/testkit": ["@kjanat/dreamcli@2.4.1", "", {}, "sha512-vb0uMFblEIcJ+2YKyU9GqX7P5MaSZZp7uen2PkFF2OxJ8LPB8AVKERUAFBr/2m1e19U98I7MmDOjN7cjfiPT6w=="],
 
     "dts-resolver": ["dts-resolver@3.0.0", "", { "peerDependencies": { "oxc-resolver": ">=11.0.0" }, "optionalPeers": ["oxc-resolver"] }, "sha512-1T1f+z+4tl9XD+m+0HBgWoL/nm0bOIffyWaUuUSBlFg/86IWvfx+wjNaO/ybU0AJzG9/Mi5hBUgGV6zCmWEN7Q=="],
 

@@ -23,30 +23,31 @@ export const verifyCmd = command("verify")
 			onigWasmPath: resolve(cwd(), flags["onig-wasm"]),
 		});
 		const failuresLen = result.failures.length;
+		const { json, jsonMode, setExitCode, log } = out;
 
-		if (out.jsonMode) {
-			out.json(result);
+		if (jsonMode) {
+			json(result);
 			if (failuresLen > 0) {
-				out.setExitCode(1);
+				setExitCode(1);
 				exit();
 			}
 			return;
 		}
 
-		out.log(`${result.pass} / ${result.total} assertions pass`);
+		log(`${result.pass} / ${result.total} assertions pass`);
 		if (failuresLen === 0) return;
 
-		out.log("");
-		out.log("── failures ──");
+		log("");
+		log("── failures ──");
 		const limit = flags["max-failures"] === 0 ? failuresLen : flags["max-failures"];
 		for (const f of result.failures.slice(0, limit)) {
 			const gotStr = f.got
 				? f.got.filter((s) => s !== "source.recipe").join(" · ") || "(root only)"
 				: "(no token)";
-			out.log(`  ${f.fixture}:${f.line}:${f.col}  expected ${f.capture}  got [${gotStr}]`);
+			log(`  ${f.fixture}:${f.line}:${f.col}  expected ${f.capture}  got [${gotStr}]`);
 		}
 		if (failuresLen > limit) {
-			out.log(`  … +${failuresLen - limit} more`);
+			log(`  … +${failuresLen - limit} more`);
 		}
-		out.setExitCode(1);
+		setExitCode(1);
 	});
