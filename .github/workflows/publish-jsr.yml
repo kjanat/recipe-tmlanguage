@@ -8,9 +8,8 @@ jobs:
     environment: { name: jsr, url: "${{ steps.meta.outputs.url }}" }
     steps:
       - uses: actions/checkout@v7
-      - uses: oven-sh/setup-bun@v2
-      - run: bun install --frozen-lockfile --ignore-scripts
-      - run: bun run generate
+      - uses: ./.github/actions/ready
+      - run: runner install --pm=deno deno:generate
       - id: meta
         run: echo "url=https://jsr.io/$(yq -r .name deno.json)@$(yq -r .version deno.json)" >> "$GITHUB_OUTPUT"
       - run: bunx jsr publish
