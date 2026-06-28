@@ -50,8 +50,11 @@
 			"bin/cli.ts",
 			"bin/commands/generate.ts",
 			"bin/commands/verify.ts",
+			"bin/lib/utils.ts",
 			"src/grammar.ts",
 			"src/verifier.ts",
+			"src/deps/oniguruma.ts",
+			"src/deps/textmate.ts",
 			"package.json",
 			"LICENSE",
 			"README.md",
@@ -63,6 +66,7 @@
 	"nodeModulesDir": "auto",
 	"allowScripts": ["npm:dprint@0.54.0", "npm:tree-sitter-recipe@0.3.1"],
 	"minimumDependencyAge": {
+		"age": "PT24H",
 		"exclude": [
 			"jsr:@kjanat/dreamcli",
 			"jsr:@kjanat/tree-sitter-recipe",
