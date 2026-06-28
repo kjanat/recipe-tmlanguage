@@ -4,18 +4,15 @@ permissions: { contents: read }
 jobs:
   node:
     runs-on: ubuntu-latest
-    env: { RUNNER_PM: bun }
     steps:
       - uses: actions/checkout@v7
       - uses: ./.github/actions/ready
-      - run: bun install --ignore-scripts
-      - run: run -s generate bundle
+      - run: runner install --pm=bun generate bundle
       - run: run -p typecheck verify test lint
       - run: run package.json:version
   deno:
     runs-on: ubuntu-latest
-    env: { RUNNER_PM: deno }
     steps:
       - uses: actions/checkout@v7
       - uses: ./.github/actions/ready
-      - run: runner install deno:ci
+      - run: runner install --pm=deno deno:ci

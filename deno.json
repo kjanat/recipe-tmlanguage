@@ -12,6 +12,16 @@
 		"check": "deno check",
 		"lint": "deno lint",
 		"version": "deno run -A ./bin/cli.ts --version",
+		"generate": {
+			"command": "deno run -A bin/cli.ts generate",
+			"description": "Build the TextMate grammar from the tree-sitter-recipe vocabulary",
+			"output": ["recipe.tmLanguage.json"],
+			"files": ["src/**", "bin/**"]
+		},
+		"verify": {
+			"command": "deno run -A bin/cli.ts verify",
+			"description": "Tokenize tree-sitter-recipe highlight fixtures and assert scope matches"
+		},
 		"ci": {
 			"command": "echo 'all gucci'",
 			"dependencies": ["check", "lint", "version"]
@@ -48,11 +58,10 @@
 			"deno.json"
 		]
 	},
+	"lock": false,
 	"preferPackageJson": false,
-	"nodeModulesDir": "none",
-	"minimumDependencyAge": {
-		"exclude": ["jsr:@kjanat/tree-sitter-recipe", "jsr:@kjanat/dreamcli"]
-	},
-	"exclude": ["bin/*.mjs", "tsdown.config.ts", "test/"],
-	"lock": false
+	"nodeModulesDir": "auto",
+	"allowScripts": ["npm:dprint@0.54.0", "npm:tree-sitter-recipe@0.3.1"],
+	"minimumDependencyAge": { "exclude": ["jsr:@kjanat/tree-sitter-recipe", "jsr:@kjanat/dreamcli"] },
+	"exclude": ["bin/*.mjs", "tsdown.config.ts", "test/"]
 }
