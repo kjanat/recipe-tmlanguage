@@ -1,4 +1,4 @@
-import { resolveImportMeta } from "#bin/lib/utils.ts";
+import { defaultGrammarPath } from "#bin/lib/utils.ts";
 import { buildGrammar, serializeGrammar } from "#src/grammar.ts";
 import { command, flag } from "@kjanat/dreamcli";
 import { mkdirSync, writeFileSync } from "node:fs";
@@ -6,7 +6,7 @@ import { dirname, resolve } from "node:path";
 import { cwd } from "node:process";
 
 const indentOf = (raw: string): "tab" | number => (raw === "tab" ? "tab" : Number(raw));
-const DEFAULT_OUT = resolveImportMeta("#tmLang");
+const DEFAULT_OUT = defaultGrammarPath();
 
 export const generateCmd = command("generate")
 	.description("Build the TextMate grammar from the tree-sitter-recipe vocabulary")

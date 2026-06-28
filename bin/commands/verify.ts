@@ -1,11 +1,11 @@
-import { packageDir, resolveImportMeta } from "#bin/lib/utils.ts";
+import { defaultGrammarPath, packageDir } from "#bin/lib/utils.ts";
 import { verify } from "#src/verifier.ts";
 import { command, flag } from "@kjanat/dreamcli";
 import { resolve } from "node:path";
 import { cwd, exit } from "node:process";
 
 const DEFAULT_FIXTURES_DIR = resolve(packageDir("tree-sitter-recipe/package.json"), "test/highlight");
-const DEFAULT_OUT = resolveImportMeta("#tmLang");
+const DEFAULT_OUT = defaultGrammarPath();
 
 export const verifyCmd = command("verify")
 	.description("Tokenize tree-sitter-recipe highlight fixtures and assert scope matches")

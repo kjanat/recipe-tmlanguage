@@ -5,7 +5,7 @@
     "": {
       "name": "recipe-tmlanguage",
       "dependencies": {
-        "@kjanat/dreamcli": "^2.4.1",
+        "@kjanat/dreamcli": "^2.5.0",
         "tree-sitter-recipe": "^0.3.1",
         "vscode-oniguruma": "^2.0.1",
         "vscode-textmate": "^9.3.2",
@@ -88,7 +88,7 @@
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
 
-    "@kjanat/dreamcli": ["@kjanat/dreamcli@2.4.1", "", {}, "sha512-vb0uMFblEIcJ+2YKyU9GqX7P5MaSZZp7uen2PkFF2OxJ8LPB8AVKERUAFBr/2m1e19U98I7MmDOjN7cjfiPT6w=="],
+    "@kjanat/dreamcli": ["@kjanat/dreamcli@2.5.0", "", {}, "sha512-fJrGDlvZGVcqELYkRH1wjlz++NVUFFyLKaYwsfXk9TlI6o96lhuUsu1soPfiIl1ysQQ0vmAq0Unt2aWyQMMhdQ=="],
 
     "@napi-rs/wasm-runtime": ["@napi-rs/wasm-runtime@1.1.6", "", { "dependencies": { "@tybys/wasm-util": "^0.10.3" }, "peerDependencies": { "@emnapi/core": "^1.7.1", "@emnapi/runtime": "^1.7.1" } }, "sha512-ZLv/JdUfkvOy9eCnnBaGfiO+XimbjebAeO+MRQqD/B+FR1tnRN0tpKSJHRbE8sFfS6aqsXZ67TQjfwfsxULVbg=="],
 

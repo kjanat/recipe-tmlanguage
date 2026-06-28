@@ -23,7 +23,7 @@
 		"#deps/": "./src/deps/",
 		"#pkg": "./deno.json",
 		"#tmLang": "./recipe.tmLanguage.json",
-		"@kjanat/dreamcli": "jsr:@kjanat/dreamcli@^2.4.1",
+		"@kjanat/dreamcli": "jsr:@kjanat/dreamcli@^2.5.0",
 		"tree-sitter-recipe": "jsr:@kjanat/tree-sitter-recipe@^0.3.1",
 		"tree-sitter-recipe/": "jsr:@kjanat/tree-sitter-recipe@^0.3.1/",
 		"tree-sitter-recipe/package.json": "jsr:@kjanat/tree-sitter-recipe@^0.3.1/package.json",

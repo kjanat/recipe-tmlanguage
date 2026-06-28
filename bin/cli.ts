@@ -16,7 +16,9 @@ import { cli } from "@kjanat/dreamcli";
 import { generateCmd } from "./commands/generate.ts";
 import { verifyCmd } from "./commands/verify.ts";
 
-const app = cli("recipe-tmlanguage").packageJson({ from: import.meta.url }).links()
+const app = cli("recipe-tmlanguage")
+	.manifest({ from: import.meta.url, files: ["package.json", "deno.json"] })
+	.links()
 	.description("TextMate grammar generator & verifier for the recipe DSL")
 	.command(generateCmd)
 	.command(verifyCmd)
