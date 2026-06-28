@@ -62,6 +62,13 @@
 	"preferPackageJson": false,
 	"nodeModulesDir": "auto",
 	"allowScripts": ["npm:dprint@0.54.0", "npm:tree-sitter-recipe@0.3.1"],
-	"minimumDependencyAge": { "exclude": ["jsr:@kjanat/tree-sitter-recipe", "jsr:@kjanat/dreamcli"] },
+	"minimumDependencyAge": {
+		"exclude": [
+			"jsr:@kjanat/dreamcli",
+			"jsr:@kjanat/tree-sitter-recipe",
+			"npm:@kjanat/dreamcli",
+			"npm:tree-sitter-recipe"
+		]
+	},
 	"exclude": ["bin/*.mjs", "tsdown.config.ts", "test/"]
 }
